@@ -6,18 +6,61 @@
 </head>
 
 <body>
-Voici le résultat du script PHP :
+Liste des voitures :
+<br>
 <?php
-// Ceci est un commentaire PHP sur une ligne
-/* Ceci est le 2ème type de commentaire PHP
-sur plusieurs lignes */
+/*$prenom = "Marc";
+Exo 4
+echo "Bonjour\n " . $prenom;
+echo "Bonjour\n $prenom";
+echo 'Bonjour\n $prenom';
 
-// On met la chaine de caractères "hello" dans la variable 'texte'
-// Les noms de variable commencent par $ en PHP
-$texte = "hello world !";
+echo $prenom;
+echo "$prenom";
 
-// On écrit le contenu de la variable 'texte' dans la page Web
-echo $texte;
+Exo 5.1
+
+$marque = "Scenic";
+$couleur = "bleu";
+$immatriculation = "AZ-663-34";
+$nbSieges = 4;
+
+echo "Voiture $immatriculation de marque $marque (Couleur $couleur, $nbSieges sièges)";
+
+Exo 5.2
+*/
+/*$voiture = [
+        'marque' => 'Dacia',
+    'couleur' => 'rouge',
+    'immatriculation' => 'ZA-938-03',
+    'nbSieges' => 5
+];
+
+
+foreach ($voiture as $cle => $valeur){
+    echo $cle ." : ".$valeur;
+    echo "<br>";
+}*/
+
+//echo "Voiture $voiture[immatriculation] de marque $voiture[marque] (Couleur $voiture[couleur], $voiture[nbSieges] sièges)";
+
+//var_dump($voiture);
+
+//Exo 5.4
+$voitures = [
+
+];
+
+//var_dump($voitures);
+
+if(empty($voitures))
+    echo "Il n’y a aucune voiture.";
+else
+    foreach ($voitures as $cle => $valeur){
+        echo "<ul><li> $valeur </ul></li>";
+    }
+
+
 ?>
 </body>
 </html>
