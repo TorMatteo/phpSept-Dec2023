@@ -1,5 +1,5 @@
 
 <?php
-echo 'Voiture : marque ' .$_GET['marque'] . '<br>plaque : ' . $_GET['immatriculation'] .
-'<br>couleur : ' .$_GET['couleur'] . '<br>nombre de sièges : ' . $_GET['nbsieges'];
+echo 'Voiture : marque ' .$_POST['marque'] . '<br>plaque : ' . $_POST['immatriculation'] .
+'<br>couleur : ' .$_POST['couleur'] . '<br>nombre de sièges : ' . $_POST['nbsieges'];
 ?>
