@@ -1,6 +1,7 @@
 <?php
 class Voiture {
 
+
     private string $immatriculation;
     private string $marque;
     private string $couleur;
@@ -47,6 +48,20 @@ class Voiture {
         $this->nbSieges = $nbSieges;
     }
 
+    public static function construireDepuisTableau(array $voitureFormatTableau) : Voiture {
+        return new Voiture($voitureFormatTableau[0], $voitureFormatTableau[1], $voitureFormatTableau[2], $voitureFormatTableau[3]);
+    }
+
+    public static function getVoitures() {
+        $pdoStatement = Model::getPdo()->query('SELECT * FROM voiture');
+        $voitureFormatTableau = $pdoStatement->fetch();
+        $listeVoiture = [];
+        foreach ($pdoStatement as $voitureFormatTableau){
+            $listeVoiture[] = self::construireDepuisTableau($voitureFormatTableau);
+        }
+        return$listeVoiture;
+    }
+
 
 
     // un constructeur
@@ -68,8 +83,10 @@ class Voiture {
         return 'Voiture marque : ' .$this->getMarque() .
             '<br> Couleur : ' .$this->getCouleur() .
             '<br> Immatriculation : ' .$this->getImmatriculation() .
-            '<br> Nombre de places : ' .$this->getNbSieges();
+            '<br> Nombre de places : ' .$this->getNbSieges() . '<br> <br>' ;
     }
+
+
 
 }
 ?>
