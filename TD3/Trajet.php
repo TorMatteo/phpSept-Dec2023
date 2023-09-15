@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Model.php';
+require_once 'Utilisateur.php';
 
 class Trajet {
 
@@ -130,5 +131,9 @@ class Trajet {
         }
 
         return $trajets;
+    }
+
+    public static function getPassagers(int $id): array {
+        return 0;
     }
 }
