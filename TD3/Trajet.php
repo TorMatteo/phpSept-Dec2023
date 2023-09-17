@@ -133,7 +133,30 @@ class Trajet {
         return $trajets;
     }
 
-    public static function getPassagers(int $id): array {
-        return 0;
+    public static function getPassagers(int $id): ?array {
+        $sql = "SELECT u.login, nom, prenom 
+        from trajet t 
+        INNER JOIN passager p ON p.trajetId = t.id 
+        INNER JOIN utilisateur u ON p.passagerLogin = u.login
+        WHERE t.id = :idTag";
+        $pdoStatement = Model::getPdo()->prepare($sql);
+        $values = array(
+                "idTag" => $id,
+            );
+
+        $pdoStatement->execute($values);
+
+        $passagersTab = $pdoStatement->fetchAll();
+
+        if($passagersTab == false) return null;
+
+        $listeUtilisateurs = [];
+
+        for($i = 0 ; $i < (count($passagersTab)) ; $i++){
+            $listeUtilisateurs[$i] = new Utilisateur($passagersTab[$i][0], $passagersTab[$i][1], $passagersTab[$i][2]);
+        }
+        return $listeUtilisateurs;
     }
+
+
 }
