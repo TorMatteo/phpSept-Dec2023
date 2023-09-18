@@ -3,7 +3,13 @@
     require_once ("Trajet.php");
     require_once ("Utilisateur.php");
 
-foreach (Trajet::getPassagers($_GET['id']) as $passager){
+    if(empty($_GET)){
+        echo "ERROR BIP BOOP";
+    }
+    else{
+
+        foreach (Trajet::getPassagers($_GET['id']) as $passager){
     echo $passager;
 }
+    }
 ?>
