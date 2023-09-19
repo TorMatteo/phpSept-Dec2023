@@ -153,7 +153,7 @@ class Trajet {
         $listeUtilisateurs = [];
 
         for($i = 0 ; $i < (count($passagersTab)) ; $i++){
-            $listeUtilisateurs[$i] = new Utilisateur($passagersTab[$i][0], $passagersTab[$i][1], $passagersTab[$i][2]);
+            $listeUtilisateurs[$i] = Utilisateur::construireDepuisTableau($passagersTab[$i]);
         }
         return $listeUtilisateurs;
     }
