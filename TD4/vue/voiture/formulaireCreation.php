@@ -5,7 +5,7 @@
     <title> Mon premier php </title>
   </head>
   <body>
-  <form method="get" action='../../Controleur/routeur.php?action=creerDepuisFormulaire'>
+  <form method="get">
     <fieldset>
       <legend>Mon formulaire :</legend>
         <p>

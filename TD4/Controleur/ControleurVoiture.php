@@ -30,13 +30,11 @@ class ControleurVoiture {
     }
 
     public static function creerDepuisFormulaire() : void{
-       /* if(ModeleVoiture::getVoitureParImmat($_GET['immatriculation']) != null){
             $modVoiture = new ModeleVoiture($_GET['immatriculation'], $_GET['marque'], $_GET['couleur'], $_GET['nbsieges']);
             $modVoiture->sauvegarder();
-            self::afficherDetail();
-        }*/
-        echo "bonjour";
-    }
+            self::afficherListe();
+        }
+
 }
 
 ?>
