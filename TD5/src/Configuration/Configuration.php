@@ -1,5 +1,5 @@
 <?php
-class Conf {
+class Configuration {
 
     static private array $databaseConfiguration = array(
         // Le nom d'hote est webinfo a l'IUT
@@ -19,30 +19,30 @@ class Conf {
         'login' => 'tordeuxm',
         // A l'IUT, c'est le même mdp que PhpMyAdmin
         // Sur votre machine personelle, vous avez creez ce mdp a l'installation
-        'password' => ''
+        'password' => '08022003'
     );
 
     static public function getLogin() : string {
         // L'attribut statique $databaseConfiguration
         // s'obtient avec la syntaxe Conf::$databaseConfiguration
         // au lieu de $this->databaseConfiguration pour un attribut non statique
-        return Conf::$databaseConfiguration['login'];
+        return Configuration::$databaseConfiguration['login'];
     }
 
     static public function getHostname() : string {
-        return Conf::$databaseConfiguration['hostname'];
+        return Configuration::$databaseConfiguration['hostname'];
     }
 
     static public function getPort() : string {
-        return Conf::$databaseConfiguration['port'];
+        return Configuration::$databaseConfiguration['port'];
     }
 
     static public function getDatabase() : string {
-        return Conf::$databaseConfiguration['database'];
+        return Configuration::$databaseConfiguration['database'];
     }
 
     static public function getPassword() : string {
-        return Conf::$databaseConfiguration['password'];
+        return Configuration::$databaseConfiguration['password'];
     }
 
 }
