@@ -1,4 +1,6 @@
 <?php
+namespace App\Covoiturage\Configuration;
+
 class Configuration {
 
     static private array $databaseConfiguration = array(

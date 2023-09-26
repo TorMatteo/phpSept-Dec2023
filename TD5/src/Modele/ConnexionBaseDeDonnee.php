@@ -1,5 +1,8 @@
 <?php
-require_once '../Configuration/Configuration.php';
+namespace App\Covoiturage\Modele;
+use App\Covoiturage\Configuration\Configuration as Configuration;
+use PDO;
+
 class ConnexionBaseDeDonnee{
     private static ?ConnexionBaseDeDonnee $instance = null;
     private PDO $pdo;

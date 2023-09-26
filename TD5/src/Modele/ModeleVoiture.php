@@ -1,5 +1,6 @@
 <?php
-require_once "ConnexionBaseDeDonnee.php";
+namespace App\Covoiturage\Modele;
+
 class ModeleVoiture {
 
 
@@ -55,7 +56,6 @@ class ModeleVoiture {
 
     public static function getVoitures() {
         $pdoStatement = ConnexionBaseDeDonnee::getPdo()->query('SELECT * FROM voiture');
-        $voitureFormatTableau = $pdoStatement->fetch();
         $listeVoiture = [];
         foreach ($pdoStatement as $voitureFormatTableau){
             $listeVoiture[] = self::construireDepuisTableau($voitureFormatTableau);
