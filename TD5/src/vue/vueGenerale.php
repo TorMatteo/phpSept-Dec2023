@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title><?php echo $pagetitle; ?></title>
-    <link rel="stylesheet" type="text/css" href="../../ressources/td.css">
+    <link rel="stylesheet" type="text/css" href="../ressources/css/td.css">
 </head>
 <body>
 <header>

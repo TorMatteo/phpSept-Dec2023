@@ -35,7 +35,8 @@ class ControleurVoiture {
     public static function creerDepuisFormulaire() : void{
             $modVoiture = new ModeleVoiture($_GET['immatriculation'], $_GET['marque'], $_GET['couleur'], $_GET['nbsieges']);
             $modVoiture->sauvegarder();
-            self::afficherListe();
+            $voitures = ModeleVoiture::getVoitures();
+            ControleurVoiture::afficherVue('vueGenerale.php' ,['voitures' => $voitures ,"pagetitle"=>"Voiture créée", "cheminVueBody" => 'voiture/voitureCreee.php']);
         }
 
 }
