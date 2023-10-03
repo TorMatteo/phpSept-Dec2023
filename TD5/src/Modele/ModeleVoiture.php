@@ -50,8 +50,8 @@ class ModeleVoiture {
         $this->nbSieges = $nbSieges;
     }
 
-    public static function construireDepuisTableau(array $voitureFormatTableau) : ModeleVoiture {
-        return new ModeleVoiture($voitureFormatTableau[0], $voitureFormatTableau[1], $voitureFormatTableau[2], $voitureFormatTableau[3]);
+    public static function construireDepuisTableau(array $voitureFormatTableau) : Voiture {
+        return new Voiture($voitureFormatTableau[0], $voitureFormatTableau[1], $voitureFormatTableau[2], $voitureFormatTableau[3]);
     }
 
     public static function getVoitures() {
@@ -63,7 +63,7 @@ class ModeleVoiture {
         return$listeVoiture;
     }
 
-    public static function getVoitureParImmat(string $immatriculation) : ?ModeleVoiture {
+    public static function getVoitureParImmat(string $immatriculation) : ?Voiture {
         $sql = "SELECT * from voiture WHERE immatriculation = :immatriculationTag";
         // Préparation de la requête
         $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
@@ -81,7 +81,7 @@ class ModeleVoiture {
 
         if($voitureFormatTableau == false) return null;
 
-        return ModeleVoiture::construireDepuisTableau($voitureFormatTableau);
+        return Voiture::construireDepuisTableau($voitureFormatTableau);
     }
 
     public function sauvegarder() : void {
