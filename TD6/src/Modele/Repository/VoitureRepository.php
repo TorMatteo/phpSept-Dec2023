@@ -60,6 +60,19 @@ Class VoitureRepository{
         $pdoStatement->execute($values);
 
     }
+
+    public static function mettreAJour(Voiture $voiture) : void{
+        $sql = "UPDATE voiture SET marque = :marqueTag, couleur = :couleurTag, nbSieges = :nbSiegesTag WHERE 
+                immatriculation = :immatriculationTag";
+        $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
+        $values = array(
+            "marqueTag" => $voiture->getMarque(),
+            "couleurTag" => $voiture->getCouleur(),
+            "nbSiegesTag" => $voiture->getNbSieges(),
+            "immatriculationTag" => $voiture->getImmatriculation()
+        );
+        $pdoStatement->execute($values);
+    }
 }
 
 ?>

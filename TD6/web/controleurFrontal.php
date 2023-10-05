@@ -17,20 +17,27 @@ if(isset($_GET['action'])){
 else {
     $action = "afficherListe";
 }
+if(isset($_GET['controleur'])){
+    $controleur = $_GET['controleur'];
+} else{
+    $controleur = "voiture";
+}
 
-$classCV =  get_class_methods(App\Covoiturage\Controleur\ControleurVoiture::class);
+$nomDeClasseControleur = "App\Covoiturage\Controleur\Controleur".ucfirst($controleur);
 $verif = 0;
-foreach ($classCV as $method){
-    if($action == $method)($verif = 1);
-}
 
+        $classCV = get_class_methods($nomDeClasseControleur);
+
+        foreach ($classCV as $method) {
+            if ($action == $method) ($verif = 1);
+    }
 // Appel de la méthode statique $action de ControleurVoiture
-if($verif == 0){
-    ControleurVoiture::afficherErreur();
-}
-else{
-    ControleurVoiture::$action();
-}
+    if ($verif == 0) {
+        $nomDeClasseControleur::afficherErreur();
+    } else {
+        $nomDeClasseControleur::$action();
+    }
+
 ?>
 
 

@@ -62,6 +62,13 @@ class ControleurVoiture {
             "cheminVueBody" => 'voiture/formulaireMiseAJour.php']);
     }
 
+    public static function mettreAJour() : void {
+        $modVoiture = new Voiture($_GET['immatriculation'], $_GET['marque'], $_GET['couleur'], $_GET['nbsieges']);
+        VoitureRepository::mettreAJour($modVoiture);
+        $voitures = VoitureRepository::getVoitures();
+        ControleurVoiture::afficherVue('vueGenerale.php', ['voitures' => $voitures, "pagetitle" => "Voiture modifiée", "cheminVueBody"=> 'voiture/voitureMiseAJour.php', 'immatriculation' => $modVoiture->getImmatriculation()]);
+    }
+
 }
 
 ?>
