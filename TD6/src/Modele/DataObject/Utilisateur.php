@@ -1,7 +1,9 @@
 <?php
 namespace App\Covoiturage\Modele\DataObject;
 
-Class Utilisateur{
+
+
+Class Utilisateur  extends AbstractDataObject {
     private string $login;
     private string $nom;
     private string $prenom;

@@ -1,15 +1,10 @@
 <?php
 namespace App\Covoiturage\Modele\Repository;
 use App\Covoiturage\Modele\DataObject\Voiture as Voiture;
-Class VoitureRepository{
 
-    public static function getVoitures() : array {
-        $pdoStatement = ConnexionBaseDeDonnee::getPdo()->query('SELECT * FROM voiture');
-        $listeVoiture = [];
-        foreach ($pdoStatement as $voitureFormatTableau){
-            $listeVoiture[] = self::construireDepuisTableau($voitureFormatTableau);
-        }
-        return$listeVoiture;
+Class VoitureRepository extends AbstractRepository {
+    public function getNomTable(): string{
+        return "voiture";
     }
 
     public static function getVoitureParImmat(string $immatriculation) : ?Voiture {

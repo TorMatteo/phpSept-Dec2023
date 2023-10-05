@@ -1,7 +1,9 @@
 <?php
 namespace App\Covoiturage\Modele\DataObject;
 
-class Voiture {
+
+
+class Voiture extends AbstractDataObject {
 
 
     private string $immatriculation;

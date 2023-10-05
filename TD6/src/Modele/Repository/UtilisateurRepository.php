@@ -1,12 +1,12 @@
 <?php
 namespace App\Covoiturage\Modele\Repository;
 use App\Covoiturage\Modele\DataObject\Utilisateur as Utilisateur;
-Class UtilisateurRepository{
+Class UtilisateurRepository extends AbstractRepository {
     public static function getUtilisateurs() : array {
         $pdoStatement = ConnexionBaseDeDonnee::getPdo()->query('SELECT * FROM utilisateur');
         $listeUtilisateur = [];
         foreach ($pdoStatement as $utilisateurFormatTableau){
-            $listeUtilisateur = self::construireDepuisTableau($utilisateurFormatTableau);
+            $listeUtilisateur[] = self::construireDepuisTableau($utilisateurFormatTableau);
         }
         return $listeUtilisateur;
     }
