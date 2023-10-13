@@ -1,13 +1,19 @@
 <?php
 namespace App\Covoiturage\Modele\Repository;
+use App\Covoiturage\Modele\DataObject\AbstractDataObject;
 use App\Covoiturage\Modele\DataObject\Voiture as Voiture;
 
 Class VoitureRepository extends AbstractRepository {
+    public function getNomClePrimaire(): string
+    {
+        return "immatriculation";
+    }
+
     public function getNomTable(): string{
         return "voiture";
     }
 
-    public static function getVoitureParImmat(string $immatriculation) : ?Voiture {
+  /*  public static function getVoitureParImmat(string $immatriculation) : ?Voiture {
         $sql = "SELECT * from voiture WHERE immatriculation = :immatriculationTag";
         // Préparation de la requête
         $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
@@ -26,7 +32,7 @@ Class VoitureRepository extends AbstractRepository {
         if($voitureFormatTableau == false) return null;
 
         return VoitureRepository::construireDepuisTableau($voitureFormatTableau);
-    }
+    }*/
 
     public static function sauvegarder(Voiture $voiture) : bool {
         $sql = "INSERT INTO voiture (immatriculation, marque, couleur, nbSieges) VALUES (:immatriculationTag, :marqueTag, :couleurTag, :nbSiegesTag)";
@@ -42,7 +48,7 @@ Class VoitureRepository extends AbstractRepository {
 
     }
 
-    public static function construireDepuisTableau(array $voitureFormatTableau) : Voiture {
+ protected function construireDepuisTableau(array $voitureFormatTableau) : Voiture {
         return new Voiture($voitureFormatTableau[0], $voitureFormatTableau[1], $voitureFormatTableau[2], $voitureFormatTableau[3]);
     }
 

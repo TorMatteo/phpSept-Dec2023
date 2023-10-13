@@ -2,7 +2,8 @@
 
 namespace App\Covoiturage\Controleur;
 use App\Covoiturage\Modele\Repository\UtilisateurRepository as utilisateurRepository;
-use App\Covoiturage\Modele\DataObject\Voiture as Voiture;
+
+
 
 class ControleurUtilisateur {
 
@@ -14,7 +15,7 @@ class ControleurUtilisateur {
 
     // Déclaration de type de retour void : la fonction ne retourne pas de valeur
     public static function afficherListe() : void {
-        $utilisateurs = utilisateurRepository::getUtilisateurs(); //appel au modèle pour gerer la BD
+        $utilisateurs = (new UtilisateurRepository())->recuperer() ; //appel au modèle pour gerer la BD
         //ControleurVoiture::afficherVue('voiture/liste.php', ['voitures'=>$voitures]);  //"redirige" vers la vue
         ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateurs'=>$utilisateurs, "pagetitle" => "Liste des utilisateurs", "cheminVueBody" => "utilisateur/liste.php"]);
     }
