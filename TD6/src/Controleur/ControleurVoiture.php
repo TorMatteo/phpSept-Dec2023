@@ -2,6 +2,7 @@
 
 namespace App\Covoiturage\Controleur;
 
+use App\Covoiturage\Modele\Repository\AbstractRepository;
 use App\Covoiturage\Modele\Repository\VoitureRepository as VoitureRepository;
 use App\Covoiturage\Modele\DataObject\Voiture as Voiture;
 
@@ -43,13 +44,10 @@ class ControleurVoiture {
 
     public static function supprimer() : void {
         $immatriculation = $_GET['immatriculation'];
-        VoitureRepository::supprimerParImmatriculation($immatriculation);
-        $voitures = AbstractRepository::recuperer();
+        (new VoitureRepository())->supprimer($immatriculation);
+        $voitures = (new VoitureRepository())->recuperer();
         ControleurVoiture::afficherVue('vueGenerale.php' ,
             ['voitures' => $voitures, 'immatriculation' => $immatriculation ,"pagetitle"=>"Voiture suppr", "cheminVueBody" => 'voiture/voitureSupprimee.php']);
-
-
-
     }
 
     public static function afficherFormulaireMiseAJour() : void{

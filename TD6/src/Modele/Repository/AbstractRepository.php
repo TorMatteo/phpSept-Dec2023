@@ -2,6 +2,7 @@
 namespace App\Covoiturage\Modele\Repository;
 use App\Covoiturage\Modele\DataObject\AbstractDataObject;
 abstract class AbstractRepository{
+
     public function recuperer(): array
     {
         $pdoStatement = ConnexionBaseDeDonnee::getPdo()->query('SELECT * FROM '.$this->getNomTable());
@@ -38,5 +39,14 @@ abstract class AbstractRepository{
 
     }
     protected abstract function getNomClePrimaire(): string;
+    public function supprimer(string $clefPrim)
+    {
+        $sql = "DELETE FROM ".$this->getNomTable()." WHERE ".$this->getNomClePrimaire()." =:Tag";
+        $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
+        $values = array(
+            "Tag" => $clefPrim
+        );
+        $pdoStatement->execute($values);
+    }
 }
 ?>

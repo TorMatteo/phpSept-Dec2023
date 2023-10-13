@@ -52,16 +52,6 @@ Class VoitureRepository extends AbstractRepository {
         return new Voiture($voitureFormatTableau[0], $voitureFormatTableau[1], $voitureFormatTableau[2], $voitureFormatTableau[3]);
     }
 
-    public static function supprimerParImmatriculation(string $immatriculation){
-        $sql = "DELETE FROM voiture WHERE immatriculation = :immatriculationTag";
-        $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
-        $values = array(
-            "immatriculationTag" => $immatriculation
-        );
-        $pdoStatement->execute($values);
-
-    }
-
     public static function mettreAJour(Voiture $voiture) : void{
         $sql = "UPDATE voiture SET marque = :marqueTag, couleur = :couleurTag, nbSieges = :nbSiegesTag WHERE 
                 immatriculation = :immatriculationTag";

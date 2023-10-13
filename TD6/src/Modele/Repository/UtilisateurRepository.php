@@ -3,6 +3,11 @@ namespace App\Covoiturage\Modele\Repository;
 
 use App\Covoiturage\Modele\DataObject\Utilisateur as Utilisateur;
 Class UtilisateurRepository extends AbstractRepository {
+    public function getNomClePrimaire(): string
+    {
+        return "login";
+    }
+
     public function getNomTable(): string{
         return "utilisateur";
     }
