@@ -9,6 +9,7 @@
 
         <legend>Mise à jour :</legend>
         <p>
+            <input type='hidden' name='controleur' value='utilisateur'>
             <input type='hidden' name='action' value='mettreAJour'>
         </p>
         <p> <label for="immat_id">Login</label>

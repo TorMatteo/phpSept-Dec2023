@@ -68,7 +68,14 @@ Class Utilisateur  extends AbstractDataObject {
         $this->prenom = $prenom;
     }
 
-
+    public function formatTableau(): array
+    {
+        return array(
+            "loginTag" => $this->login,
+            "nomTag" => $this->nom,
+            "prenomTag" => $this->prenom,
+        );
+    }
 }
 
 ?>

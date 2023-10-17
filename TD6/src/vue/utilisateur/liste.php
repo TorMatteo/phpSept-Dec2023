@@ -9,7 +9,7 @@ foreach ($utilisateurs as $utilisateur){
 <a href="https://webinfo.iutmontp.univ-montp2.fr/~tordeuxm/td-php/TD6/web/controleurFrontal.php?controleur=utilisateur&action=supprimer&login='
         .rawurlencode($utilisateur->getLogin()).'"> suppr  </a>
 <a href="https://webinfo.iutmontp.univ-montp2.fr/~tordeuxm/td-php/TD6/web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireMiseAJour&login='
-    .rawurlencode($utilisateur->getLogin()).'"> <MAJ></MAJ> </a></p>';
+    .rawurlencode($utilisateur->getLogin()).'"> MAJ </a></p>';
 
 }
 ?>

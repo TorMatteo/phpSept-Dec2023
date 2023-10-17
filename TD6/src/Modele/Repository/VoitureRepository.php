@@ -34,21 +34,7 @@ Class VoitureRepository extends AbstractRepository {
         return VoitureRepository::construireDepuisTableau($voitureFormatTableau);
     }*/
 
-    public static function sauvegarder(Voiture $voiture) : bool {
-        $sql = "INSERT INTO voiture (immatriculation, marque, couleur, nbSieges) VALUES (:immatriculationTag, :marqueTag, :couleurTag, :nbSiegesTag)";
-        $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
-        $values = array(
-            "immatriculationTag" => $voiture->getImmatriculation(),
-            "marqueTag" => $voiture->getMarque(),
-            "couleurTag" => $voiture->getCouleur(),
-            "nbSiegesTag" => $voiture->getNbSieges()
-        );
-        $pdoStatement->execute($values);
-        return true;
-
-    }
-
- protected function construireDepuisTableau(array $voitureFormatTableau) : Voiture {
+    protected function construireDepuisTableau(array $voitureFormatTableau) : Voiture {
         return new Voiture($voitureFormatTableau[0], $voitureFormatTableau[1], $voitureFormatTableau[2], $voitureFormatTableau[3]);
     }
 

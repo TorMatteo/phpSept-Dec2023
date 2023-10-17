@@ -5,7 +5,30 @@ use App\Covoiturage\Modele\DataObject\Voiture;
 
 abstract class AbstractRepository{
 
-    public function mettreAJour(Voiture $voiture): void
+    public function sauvegarder(AbstractDataObject $object): bool
+    {
+        $sql = "INSERT INTO ".$this->getNomTable()." ( ";
+        $colonnes = $this->getNomsColonnes();
+        $setClause = [];
+        foreach ($colonnes as $colonne) {
+            $setClause[] = "$colonne";
+        }
+        $sql .= implode(", ", $setClause);
+        $sql .= ") VALUES (";
+        $setClause2 = [];
+        foreach ($colonnes as $colonne){
+            $setClause2[] = ":{$colonne}Tag";
+    }
+        $sql .= implode(", ", $setClause2);
+        $sql .= ")";
+
+        $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
+        $values= $object->formatTableau();
+        $pdoStatement->execute($values);
+        return true;
+    }
+
+    public function mettreAJour(AbstractDataObject $object): void
     {
         $sql = "UPDATE ".$this->getNomTable()." SET ";
         $colonnes = $this->getNomsColonnes();
@@ -14,17 +37,13 @@ abstract class AbstractRepository{
             $setClause[] = "$colonne = :{$colonne}Tag";
         }
         $sql .= implode(", ", $setClause);
-        $sql .= " WHERE " . $this->getNomClePrimaire() . " = :immatriculationTag";
-
+        $sql .= " WHERE " . $this->getNomClePrimaire() . " = :".$this->getNomClePrimaire()."Tag";
         $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
-        $values = array(
-            "marqueTag" => $voiture->getMarque(),
-            "couleurTag" => $voiture->getCouleur(),
-            "nbSiegesTag" => $voiture->getNbSieges(),
-            "immatriculationTag" => $voiture->getImmatriculation()
-        );
+        $values = $object->formatTableau();
         $pdoStatement->execute($values);
     }
+
+
 
     public function recuperer(): array
     {

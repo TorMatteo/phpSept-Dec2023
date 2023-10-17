@@ -48,6 +48,19 @@ class ControleurUtilisateur {
         ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateur' => $utilisateur, "pagetitle"=>"MAJ",
             "cheminVueBody" => 'utilisateur/formulaireMiseAJour.php']);
     }
+    public static function mettreAJour() : void {
+        $utilisateur = new Utilisateur($_GET['login'], $_GET['nom'], $_GET['prenom']);
+        (new UtilisateurRepository())->mettreAJour($utilisateur);
+        $utilisateurs = (new UtilisateurRepository())->recuperer();
+        ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateurs' => $utilisateurs, "pagetitle" => "Utilisateur modifié", "cheminVueBody"=> 'utilisateur/utilisateurMiseAJour.php', 'login' => $utilisateur->getLogin()]);
+    }
+
+    public static function creerDepuisFormulaire() : void{
+        $modUtilisateur= new Utilisateur($_GET['login'], $_GET['nom'], $_GET['prenom']);
+        $accepter = (new UtilisateurRepository())->sauvegarder($modUtilisateur);
+        $utilisateurs = (new UtilisateurRepository())->recuperer();
+        ControleurUtilisateur::afficherVue('vueGenerale.php' ,['utilisateurs' => $utilisateurs ,"pagetitle"=>"Utilisateur créé", "cheminVueBody" => 'utilisateur/utilisateurCree.php']);
+    }
 
 }
 

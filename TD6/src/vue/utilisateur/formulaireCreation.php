@@ -9,7 +9,8 @@
 
         <legend>Mise à jour :</legend>
         <p>
-            <input type='hidden' name='action' value='mettreAJour'>
+            <input type='hidden' name='controleur' value='utilisateur'>
+            <input type='hidden' name='action' value='creerDepuisFormulaire'>
         </p>
         <p> <label for="immat_id">Login</label>
             <input type="text" placeholder="l4"  name="login" id="immat_id" required/>

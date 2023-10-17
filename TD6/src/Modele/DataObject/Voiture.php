@@ -73,6 +73,16 @@ class Voiture extends AbstractDataObject {
             '<br> Immatriculation : ' .$this->getImmatriculation() .
             '<br> Nombre de places : ' .$this->getNbSieges() . '<br> <br>' ;
     }*/
+    public function formatTableau(): array
+    {
+        return array(
+            "immatriculationTag" => $this->immatriculation,
+            "marqueTag" => $this->marque,
+            "couleurTag" => $this->couleur,
+            "nbSiegesTag" => $this->nbSieges,
+        );
+    }
+
 
 
 
