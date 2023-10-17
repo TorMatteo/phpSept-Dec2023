@@ -6,12 +6,9 @@ use App\Covoiturage\Modele\Repository\AbstractRepository;
 use App\Covoiturage\Modele\Repository\VoitureRepository as VoitureRepository;
 use App\Covoiturage\Modele\DataObject\Voiture as Voiture;
 
-class ControleurVoiture {
+class ControleurVoiture extends ControleurGenerique {
 
-    private static function afficherVue(string $cheminVue, array $parametres = []) : void {
-        extract($parametres); // Crée des variables à partir du tableau $parametres
-        require __DIR__ . "/../vue/$cheminVue"; // Charge la vue
-    }
+
 
 
     // Déclaration de type de retour void : la fonction ne retourne pas de valeur

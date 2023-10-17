@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+<form method="get">
+    <fieldset>
+
+        <legend>Pref :</legend>
+        <input type="hidden" name="action" value="enregistrerPreference">
+        <input type="radio" id="voitureId" name="controleur_defaut" value="voiture"> <?php if($_COOKIE['preferenceControleur'] == "voiture") ?>>
+        <label for="voitureId">Voiture</label>
+        <input type="radio" id="utilisateurId" name="controleur_defaut" value="utilisateur"> <?php if($_COOKIE['preferenceControleur'] == "utilisateur") ?>>
+        <label for="utilisateurId">Utilisateur</label>
+        <input type="radio" id="trajetId" name="controleur_defaut" value="trajet" <?php if($_COOKIE['preferenceControleur'] == "trajet") ?>>
+        <label for="trajetId">Trajet</label>
+
+
+        <p>
+            <input type="submit" value="Envoyer" />
+        </p>
+    </fieldset>
+</form>
+
+</body>
+</html>

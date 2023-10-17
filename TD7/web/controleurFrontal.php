@@ -11,15 +11,21 @@ use App\Covoiturage\Controleur\ControleurVoiture as ControleurVoiture;
 
 
 // On recupère l'action passée dans l'URL
+
+
 if(isset($_GET['action'])){
     $action = $_GET['action'];
 }
 else {
     $action = "afficherListe";
 }
+
 if(isset($_GET['controleur'])){
     $controleur = $_GET['controleur'];
-} else{
+} else if(isset($_COOKIE['preferenceControleur'])){
+    $controleur = $_COOKIE['preferenceControleur'];
+}
+else{
     $controleur = "voiture";
 }
 

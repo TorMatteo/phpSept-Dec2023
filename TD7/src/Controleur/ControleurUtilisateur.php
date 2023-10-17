@@ -2,16 +2,14 @@
 
 namespace App\Covoiturage\Controleur;
 use App\Covoiturage\Modele\DataObject\Utilisateur as Utilisateur;
+use App\Covoiturage\Modele\HTTP\Cookie;
 use App\Covoiturage\Modele\Repository\UtilisateurRepository as UtilisateurRepository;
 
 
 
-class ControleurUtilisateur {
+class ControleurUtilisateur extends ControleurGenerique {
 
-    private static function afficherVue(string $cheminVue, array $parametres = []) : void {
-        extract($parametres); // Crée des variables à partir du tableau $parametres
-        require __DIR__ . "/../vue/$cheminVue"; // Charge la vue
-    }
+
 
 
     // Déclaration de type de retour void : la fonction ne retourne pas de valeur
@@ -61,6 +59,23 @@ class ControleurUtilisateur {
         $utilisateurs = (new UtilisateurRepository())->recuperer();
         ControleurUtilisateur::afficherVue('vueGenerale.php' ,['utilisateurs' => $utilisateurs ,"pagetitle"=>"Utilisateur créé", "cheminVueBody" => 'utilisateur/utilisateurCree.php']);
     }
+
+    /*public static function deposerCookie(){
+        (new Cookie())->enregistrer("oulala", 123, 0);
+    }
+
+    public static function lireCookie(){
+        if((new Cookie())->contient("oulala") == true)
+        echo (new Cookie())->lire("oulala");
+        else{
+            echo "erreur cookie";
+        }
+    }
+
+    public static function ripCookie(){
+        (new Cookie())->supprimer("oulala");
+        self::lireCookie();
+    }*/
 
 }
 

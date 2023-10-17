@@ -16,6 +16,9 @@
             </li><li>
                 <a href="controleurFrontal.php?action=afficherListe&controleur=trajet">Gestion des trajets</a>
             </li>
+            <li>
+                <a href="controleurFrontal.php?action=afficherFormulairePreference"><img src="../ressources/img/heart.png" alt="coeur"> </a>
+            </li>
         </ul>
     </nav>
 </header>
