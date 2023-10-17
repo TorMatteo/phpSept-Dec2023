@@ -1,7 +1,30 @@
 <?php
 namespace App\Covoiturage\Modele\Repository;
 use App\Covoiturage\Modele\DataObject\AbstractDataObject;
+use App\Covoiturage\Modele\DataObject\Voiture;
+
 abstract class AbstractRepository{
+
+    public function mettreAJour(Voiture $voiture): void
+    {
+        $sql = "UPDATE ".$this->getNomTable()." SET ";
+        $colonnes = $this->getNomsColonnes();
+        $setClause = [];
+        foreach ($colonnes as $colonne) {
+            $setClause[] = "$colonne = :{$colonne}Tag";
+        }
+        $sql .= implode(", ", $setClause);
+        $sql .= " WHERE " . $this->getNomClePrimaire() . " = :immatriculationTag";
+
+        $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
+        $values = array(
+            "marqueTag" => $voiture->getMarque(),
+            "couleurTag" => $voiture->getCouleur(),
+            "nbSiegesTag" => $voiture->getNbSieges(),
+            "immatriculationTag" => $voiture->getImmatriculation()
+        );
+        $pdoStatement->execute($values);
+    }
 
     public function recuperer(): array
     {
@@ -14,6 +37,7 @@ abstract class AbstractRepository{
     }
 
     protected abstract function getNomTable(): string;
+    protected abstract function getNomsColonnes(): array;
 
     protected abstract function construireDepuisTableau(array $objetFormatTableau) : AbstractDataObject;
 

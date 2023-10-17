@@ -16,15 +16,15 @@
       </p>
       <p>
         <label for="mar_id">Marque</label> :
-        <input type="text" placeholder="Scenic" name="marque" id="mar_id" required>
+        <input type="text" placeholder="Scenic" name="marque" id="mar_id" required/>
       </p>
       <p>
         <label for="coul_id">Couleur</label> :
-        <input type ="text" placeholder="Bleu" name="couleur" id="coul_id" required>
+        <input type ="text" placeholder="Bleu" name="couleur" id="coul_id" required/>
       </p>
       <p>
         <label for="sie_id">nbSieges</label> :
-        <input type="number" placeholder="2" name="nbsieges" id="sie_id" required>
+        <input type="number" placeholder="2" name="nbsieges" id="sie_id" required/>
       </p>
       <p>
         <input type="submit" value="Envoyer" />

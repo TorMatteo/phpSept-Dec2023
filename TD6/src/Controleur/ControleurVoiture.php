@@ -31,7 +31,7 @@ class ControleurVoiture {
         ControleurVoiture::afficherVue('vueGenerale.php' , ["pagetitle" => "Formulaire création voiture" ,"cheminVueBody" => 'voiture/formulaireCreation.php']);
     }
 
-    public static function creerDepuisFormulaire() : void{
+    public static function creerDepuisFormulaire($getvoiture) : void{
             $modVoiture = new Voiture($_GET['immatriculation'], $_GET['marque'], $_GET['couleur'], $_GET['nbsieges']);
             $accepter = VoitureRepository::sauvegarder($modVoiture);
             $voitures = AbstractRepository::recuperer();
@@ -52,14 +52,14 @@ class ControleurVoiture {
 
     public static function afficherFormulaireMiseAJour() : void{
         $immatriculation = $_GET['immatriculation'];
-        $voiture = VoitureRepository::getVoitureParImmat($immatriculation);
+        $voiture = (new VoitureRepository())->recupererParClePrimaire($immatriculation);
         ControleurVoiture::afficherVue('vueGenerale.php', ['voiture' => $voiture, "pagetitle"=>"MAJ",
             "cheminVueBody" => 'voiture/formulaireMiseAJour.php']);
     }
 
     public static function mettreAJour() : void {
         $modVoiture = new Voiture($_GET['immatriculation'], $_GET['marque'], $_GET['couleur'], $_GET['nbsieges']);
-        VoitureRepository::mettreAJour($modVoiture);
+        AbstractRepository::mettreAJour($modVoiture);
         $voitures = (new VoitureRepository())->recuperer();
         ControleurVoiture::afficherVue('vueGenerale.php', ['voitures' => $voitures, "pagetitle" => "Voiture modifiée", "cheminVueBody"=> 'voiture/voitureMiseAJour.php', 'immatriculation' => $modVoiture->getImmatriculation()]);
     }

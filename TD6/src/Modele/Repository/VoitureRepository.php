@@ -52,18 +52,11 @@ Class VoitureRepository extends AbstractRepository {
         return new Voiture($voitureFormatTableau[0], $voitureFormatTableau[1], $voitureFormatTableau[2], $voitureFormatTableau[3]);
     }
 
-    public static function mettreAJour(Voiture $voiture) : void{
-        $sql = "UPDATE voiture SET marque = :marqueTag, couleur = :couleurTag, nbSieges = :nbSiegesTag WHERE 
-                immatriculation = :immatriculationTag";
-        $pdoStatement = ConnexionBaseDeDonnee::getPdo()->prepare($sql);
-        $values = array(
-            "marqueTag" => $voiture->getMarque(),
-            "couleurTag" => $voiture->getCouleur(),
-            "nbSiegesTag" => $voiture->getNbSieges(),
-            "immatriculationTag" => $voiture->getImmatriculation()
-        );
-        $pdoStatement->execute($values);
+    protected function getNomsColonnes(): array
+    {
+        return ["immatriculation", "marque", "couleur", "nbSieges"];
     }
+
 }
 
 ?>

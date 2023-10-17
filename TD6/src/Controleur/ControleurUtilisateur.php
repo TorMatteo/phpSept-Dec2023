@@ -38,6 +38,17 @@ class ControleurUtilisateur {
             ['utilisateurs' => $utilisateurs, 'login' => $login ,"pagetitle"=>"Uti suppr", "cheminVueBody" => 'utilisateur/utilisateurSupprimee.php']);
     }
 
+    public static function afficherFormulaireCreation() : void{
+        ControleurUtilisateur::afficherVue('vueGenerale.php' , ["pagetitle" => "Formulaire création utilisateur" ,"cheminVueBody" => 'utilisateur/formulaireCreation.php']);
+    }
+
+    public static function afficherFormulaireMiseAJour() : void{
+        $login = $_GET['login'];
+        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($login);
+        ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateur' => $utilisateur, "pagetitle"=>"MAJ",
+            "cheminVueBody" => 'utilisateur/formulaireMiseAJour.php']);
+    }
+
 }
 
 ?>
