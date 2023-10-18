@@ -9,11 +9,11 @@
 
         <legend>Pref :</legend>
         <input type="hidden" name="action" value="enregistrerPreference">
-        <input type="radio" id="voitureId" name="controleur_defaut" value="voiture"> <?php if($_COOKIE['preferenceControleur'] == "voiture") ?>>
+        <input type="radio" id="voitureId" name="controleur_defaut" value="voiture" <?php if($_COOKIE['preferenceControleur'] == "voiture") echo "checked" ?>>
         <label for="voitureId">Voiture</label>
-        <input type="radio" id="utilisateurId" name="controleur_defaut" value="utilisateur"> <?php if($_COOKIE['preferenceControleur'] == "utilisateur") ?>>
+        <input type="radio" id="utilisateurId" name="controleur_defaut" value="utilisateur" <?php if($_COOKIE['preferenceControleur'] == "utilisateur") echo "checked"?>>
         <label for="utilisateurId">Utilisateur</label>
-        <input type="radio" id="trajetId" name="controleur_defaut" value="trajet" <?php if($_COOKIE['preferenceControleur'] == "trajet") ?>>
+        <input type="radio" id="trajetId" name="controleur_defaut" value="trajet" <?php if($_COOKIE['preferenceControleur'] == "trajet") echo "checked" ?>>
         <label for="trajetId">Trajet</label>
 
 
