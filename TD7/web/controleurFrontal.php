@@ -31,9 +31,7 @@ else{
 
 $nomDeClasseControleur = "App\Covoiturage\Controleur\Controleur".ucfirst($controleur);
 $verif = 0;
-
-        $classCV = get_class_methods($nomDeClasseControleur);
-
+$classCV = get_class_methods($nomDeClasseControleur);
         foreach ($classCV as $method) {
             if ($action == $method) ($verif = 1);
     }

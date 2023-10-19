@@ -5,7 +5,7 @@ use App\Covoiturage\Modele\DataObject\Utilisateur as Utilisateur;
 use App\Covoiturage\Modele\HTTP\Cookie;
 use App\Covoiturage\Modele\Repository\UtilisateurRepository as UtilisateurRepository;
 
-
+use App\Covoiturage\Modele\HTTP\Session;
 
 class ControleurUtilisateur extends ControleurGenerique {
 
@@ -76,6 +76,13 @@ class ControleurUtilisateur extends ControleurGenerique {
         (new Cookie())->supprimer("oulala");
         self::lireCookie();
     }*/
+
+    public static function sessionOPEN(){
+        $session = Session::getInstance();
+        $session->enregistrer("utilisateur", "Cathy Penneflamme");
+        echo $session->lire("utilisateur");
+
+    }
 
 }
 
