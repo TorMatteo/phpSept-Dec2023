@@ -21,7 +21,7 @@
         {
             if (is_null(Session::$instance))
                 Session::$instance = new Session();
-            self::verifierDerniereActivite();
+            Session::$instance->verifierDerniereActivite();
             return Session::$instance;
         }
 
