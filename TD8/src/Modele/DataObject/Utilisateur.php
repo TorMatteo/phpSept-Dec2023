@@ -3,6 +3,8 @@ namespace App\Covoiturage\Modele\DataObject;
 
 
 
+use App\Covoiturage\Lib\MotDePasse;
+
 Class Utilisateur  extends AbstractDataObject {
     private string $login;
     private string $nom;
@@ -36,6 +38,11 @@ Class Utilisateur  extends AbstractDataObject {
         $this->nom = $nom;
         $this->prenom = $prenom;
         $this->mdpHache = $mdpHache;
+    }
+
+     public static function construireDepuisFormulaire (array $tableauFormulaire) : Utilisateur{
+        $mdp = MotDePasse::hacher($tableauFormulaire[3]);
+        return new Utilisateur($tableauFormulaire[0], $tableauFormulaire [1], $tableauFormulaire[2], $mdp);
     }
 
     /**

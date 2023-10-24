@@ -1,3 +1,3 @@
 <?php
-echo '<p> erreur utilisateur </p>';
+echo '<p>'. $messError .'</p>';
 ?>
