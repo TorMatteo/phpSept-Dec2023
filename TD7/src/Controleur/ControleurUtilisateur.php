@@ -82,7 +82,30 @@ class ControleurUtilisateur extends ControleurGenerique {
         $session->enregistrer("utilisateur", "Cathy Penneflamme");
         echo $session->lire("utilisateur");
 
+        // Start a session
+        $session->enregistrer('name', 'John');
+        echo "Session started. <br>";
+
+        // Write and read session variables
+        $session->enregistrer('age', 30);
+        $session->enregistrer('hobbies', ['reading', 'swimming', 'traveling']);
+        echo "Name: " . $session->lire('name') . "<br>";
+        echo "Age: " . $session->lire('age') . "<br>";
+        echo "Hobbies: ";
+        print_r($session->lire('hobbies'));
+        echo "<br>";
+
+        // Delete a session variable
+        $session->supprimer('age');
+        echo "Age deleted. <br>";
+
+        // Destroy the session
+        $session->detruire();
+        echo "Session destroyed. <br>";
+
     }
+
+
 
 }
 
