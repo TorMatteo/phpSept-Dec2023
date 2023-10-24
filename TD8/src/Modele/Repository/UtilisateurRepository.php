@@ -21,11 +21,11 @@ Class UtilisateurRepository extends AbstractRepository {
     }*/
 
     protected function construireDepuisTableau(array $utilisateurFormatTableau) : Utilisateur {
-        return new Utilisateur($utilisateurFormatTableau[0], $utilisateurFormatTableau[1], $utilisateurFormatTableau[2]);
+        return new Utilisateur($utilisateurFormatTableau[0], $utilisateurFormatTableau[1], $utilisateurFormatTableau[2], $utilisateurFormatTableau[3]);
     }
     protected function getNomsColonnes(): array
     {
-        return ["login", "nom", "prenom"];
+        return ["login", "nom", "prenom", "mdpHache"];
     }
 
 

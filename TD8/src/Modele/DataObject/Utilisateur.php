@@ -7,17 +7,35 @@ Class Utilisateur  extends AbstractDataObject {
     private string $login;
     private string $nom;
     private string $prenom;
+    private string $mdpHache;
+
+    /**
+     * @return string
+     */
+    public function getMdpHache(): string
+    {
+        return $this->mdpHache;
+    }
+
+    /**
+     * @param string $mdpHache
+     */
+    public function setMdpHache(string $mdpHache): void
+    {
+        $this->mdpHache = $mdpHache;
+    }
 
     /**
      * @param string $login
      * @param string $nom
      * @param string $prenom
      */
-    public function __construct(string $login, string $nom, string $prenom)
+    public function __construct(string $login, string $nom, string $prenom, string $mdpHache)
     {
         $this->login = $login;
         $this->nom = $nom;
         $this->prenom = $prenom;
+        $this->mdpHache = $mdpHache;
     }
 
     /**
@@ -74,6 +92,7 @@ Class Utilisateur  extends AbstractDataObject {
             "loginTag" => $this->login,
             "nomTag" => $this->nom,
             "prenomTag" => $this->prenom,
+            "mdpHacheTag" => $this->mdpHache
         );
     }
 }
