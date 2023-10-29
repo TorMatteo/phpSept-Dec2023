@@ -10,6 +10,17 @@ Class Utilisateur  extends AbstractDataObject {
     private string $nom;
     private string $prenom;
     private string $mdpHache;
+    private bool $estAdmin;
+
+    public function isEstAdmin(): bool
+    {
+        return $this->estAdmin;
+    }
+
+    public function setEstAdmin(bool $estAdmin): void
+    {
+        $this->estAdmin = $estAdmin;
+    }
 
     /**
      * @return string
@@ -32,17 +43,19 @@ Class Utilisateur  extends AbstractDataObject {
      * @param string $nom
      * @param string $prenom
      */
-    public function __construct(string $login, string $nom, string $prenom, string $mdpHache)
+    public function __construct(string $login, string $nom, string $prenom, string $mdpHache, bool $estAdmin)
     {
         $this->login = $login;
         $this->nom = $nom;
         $this->prenom = $prenom;
         $this->mdpHache = $mdpHache;
+        $this->estAdmin = $estAdmin;
     }
 
      public static function construireDepuisFormulaire (array $tableauFormulaire) : Utilisateur{
         $mdp = MotDePasse::hacher($tableauFormulaire[3]);
-        return new Utilisateur($tableauFormulaire[0], $tableauFormulaire [1], $tableauFormulaire[2], $mdp);
+
+        return new Utilisateur($tableauFormulaire[0], $tableauFormulaire [1], $tableauFormulaire[2], $mdp, $tableauFormulaire[4]);
     }
 
     /**
@@ -95,11 +108,18 @@ Class Utilisateur  extends AbstractDataObject {
 
     public function formatTableau(): array
     {
+        if($this->estAdmin == true){
+            $boolean = 1;
+        }
+        else {
+            $boolean = 0;
+        }
         return array(
             "loginTag" => $this->login,
             "nomTag" => $this->nom,
             "prenomTag" => $this->prenom,
-            "mdpHacheTag" => $this->mdpHache
+            "mdpHacheTag" => $this->mdpHache,
+            "estAdminTag" => $boolean
         );
     }
 }

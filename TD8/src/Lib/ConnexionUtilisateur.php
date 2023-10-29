@@ -2,6 +2,7 @@
 namespace App\Covoiturage\Lib;
 
 use App\Covoiturage\Modele\HTTP\Session;
+use App\Covoiturage\Modele\Repository\UtilisateurRepository;
 
 class ConnexionUtilisateur
 {
@@ -26,5 +27,13 @@ class ConnexionUtilisateur
     public static function getLoginUtilisateurConnecte(): ?string
     {
         return Session::getInstance()->lire(self::$cleConnexion);    }
+
+    public static function estAdministrateur() : bool{
+        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($_SESSION['_utilisateurConnecte']);
+        if(self::estConnecte() && $utilisateur->istEstAdmin()){
+            return true;
+        }
+        else return false;
+    }
 }
 

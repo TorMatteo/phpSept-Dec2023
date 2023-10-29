@@ -87,8 +87,7 @@ class ControleurUtilisateur extends ControleurGenerique
                 if ($utiVerif->getLogin() == Session::getInstance()->lire('_utilisateurConnecte')) {
                     if (MotDePasse::verifier($_GET['mdp3'], $utiVerif->getMdpHache())) {
                         if ($_GET['mdp'] == $_GET['mdp2']) {
-                            $mdp = MotDePasse::hacher($_GET['mdp']);
-                            $utilisateur = Utilisateur::construireDepuisFormulaire(array($_GET['login'], $_GET['nom'], $_GET['prenom'], $mdp));
+                            $utilisateur = Utilisateur::construireDepuisFormulaire(array($_GET['login'], $_GET['nom'], $_GET['prenom'],$_GET['mdp']));
                             (new UtilisateurRepository())->mettreAJour($utilisateur);
                             $utilisateurs = (new UtilisateurRepository())->recuperer();
                             ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateurs' => $utilisateurs, "pagetitle" => "Utilisateur modifié", "cheminVueBody" => 'utilisateur/utilisateurMiseAJour.php', 'login' => $utilisateur->getLogin()]);
@@ -115,7 +114,8 @@ class ControleurUtilisateur extends ControleurGenerique
     public static function creerDepuisFormulaire(): void
     {
         if ($_GET['mdp'] == $_GET['mdp2']) {
-            $modUtilisateur = Utilisateur::construireDepuisFormulaire(array($_GET['login'], $_GET['nom'], $_GET['prenom'], $_GET['mdp']));
+            $estAdmin = isset($_GET['estAdmin']) ? 1 : 0;
+            $modUtilisateur = Utilisateur::construireDepuisFormulaire(array($_GET['login'], $_GET['nom'], $_GET['prenom'], $_GET['mdp'], $estAdmin));
             $accepter = (new UtilisateurRepository())->sauvegarder($modUtilisateur);
             $utilisateurs = (new UtilisateurRepository())->recuperer();
             ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateurs' => $utilisateurs, "pagetitle" => "Utilisateur créé", "cheminVueBody" => 'utilisateur/utilisateurCree.php']);
