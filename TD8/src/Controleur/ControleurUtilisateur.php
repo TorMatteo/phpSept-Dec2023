@@ -35,11 +35,25 @@ class ControleurUtilisateur extends ControleurGenerique
 
     public static function supprimer(): void
     {
-        $login = $_GET['login'];
+
+        /*$login = $_GET['login'];
         (new UtilisateurRepository())->supprimer($login);
         $utilisateurs = (new UtilisateurRepository())->recuperer();
         ControleurUtilisateur::afficherVue('vueGenerale.php',
-            ['utilisateurs' => $utilisateurs, 'login' => $login, "pagetitle" => "Uti suppr", "cheminVueBody" => 'utilisateur/utilisateurSupprimee.php']);
+            ['utilisateurs' => $utilisateurs, 'login' => $login, "pagetitle" => "Uti suppr", "cheminVueBody" => 'utilisateur/utilisateurSupprimee.php']);*/
+        $utiVerif = (new UtilisateurRepository())->recupererParClePrimaire($_GET['login']);
+        if ($utiVerif) {
+            if ($utiVerif->getLogin() == Session::getInstance()->lire('_utilisateurConnecte')) {
+                (new UtilisateurRepository())->supprimer($_GET['login']);
+                $utilisateurs = (new UtilisateurRepository())->recuperer();
+                ControleurUtilisateur::afficherVue('vueGenerale.php',
+                    ['utilisateurs' => $utilisateurs, 'login' => $_GET['login'], "pagetitle" => "Uti suppr", "cheminVueBody" => 'utilisateur/utilisateurSupprimee.php']);
+            } else {
+                self::afficherErreur("mauvais compte");
+            }
+        } else {
+            self::afficherErreur("erreur uti existe pas");
+        }
     }
 
     public static function afficherFormulaireCreation(): void
@@ -67,20 +81,33 @@ class ControleurUtilisateur extends ControleurGenerique
 
     public static function mettreAJour(): void
     {
-        $utiVerif = (new UtilisateurRepository())->recupererParClePrimaire($_GET['login']);
-        if (MotDePasse::verifier($_GET['mdp3'], $utiVerif->getMdpHache())) {
-            if ($_GET['mdp'] == $_GET['mdp2']) {
-                $utilisateur = Utilisateur::construireDepuisFormulaire(array($_GET['login'], $_GET['nom'], $_GET['prenom'], $_GET['mdp']));
-                (new UtilisateurRepository())->mettreAJour($utilisateur);
-                $utilisateurs = (new UtilisateurRepository())->recuperer();
-                ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateurs' => $utilisateurs, "pagetitle" => "Utilisateur modifié", "cheminVueBody" => 'utilisateur/utilisateurMiseAJour.php', 'login' => $utilisateur->getLogin()]);
+        if ((!empty($_GET['nom']) || !empty($_GET['prenom']) || !empty($_GET['mdp']) || !empty($_GET['mdp2']) || !empty($_GET['mdp3']))) {
+            $utiVerif = (new UtilisateurRepository())->recupererParClePrimaire($_GET['login']);
+            if ($utiVerif) {
+                if ($utiVerif->getLogin() == Session::getInstance()->lire('_utilisateurConnecte')) {
+                    if (MotDePasse::verifier($_GET['mdp3'], $utiVerif->getMdpHache())) {
+                        if ($_GET['mdp'] == $_GET['mdp2']) {
+                            $mdp = MotDePasse::hacher($_GET['mdp']);
+                            $utilisateur = Utilisateur::construireDepuisFormulaire(array($_GET['login'], $_GET['nom'], $_GET['prenom'], $mdp));
+                            (new UtilisateurRepository())->mettreAJour($utilisateur);
+                            $utilisateurs = (new UtilisateurRepository())->recuperer();
+                            ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateurs' => $utilisateurs, "pagetitle" => "Utilisateur modifié", "cheminVueBody" => 'utilisateur/utilisateurMiseAJour.php', 'login' => $utilisateur->getLogin()]);
 
+                        } else {
+                            self::afficherErreur("erreur mdp nouveau et conf !=");
+
+                        }
+                    } else {
+                        self::afficherErreur("erreur ancien mdp");
+                    }
+                } else {
+                    self::afficherErreur("mauvais compte");
+                }
             } else {
-                self::afficherErreur("erreur mdp nouveau et conf !=");
-
+                self::afficherErreur("erreur uti existe pas");
             }
         } else {
-            self::afficherErreur("erreur ancien mdp");
+            self::afficherErreur("champ vide");
         }
 
     }
