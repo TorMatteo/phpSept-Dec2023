@@ -12,15 +12,7 @@ Class Utilisateur  extends AbstractDataObject {
     private string $mdpHache;
     private bool $estAdmin;
 
-    public function isEstAdmin(): bool
-    {
-        return $this->estAdmin;
-    }
 
-    public function setEstAdmin(bool $estAdmin): void
-    {
-        $this->estAdmin = $estAdmin;
-    }
 
     /**
      * @return string
@@ -53,9 +45,14 @@ Class Utilisateur  extends AbstractDataObject {
     }
 
      public static function construireDepuisFormulaire (array $tableauFormulaire) : Utilisateur{
-        $mdp = MotDePasse::hacher($tableauFormulaire[3]);
+        if($tableauFormulaire[4] == 1) {
+            $admin = true;
+        }
+        else{
+            $admin = false;
+        }
 
-        return new Utilisateur($tableauFormulaire[0], $tableauFormulaire [1], $tableauFormulaire[2], $mdp, $tableauFormulaire[4]);
+        return new Utilisateur($tableauFormulaire[0], $tableauFormulaire [1], $tableauFormulaire[2],$tableauFormulaire[3], $admin);
     }
 
     /**
@@ -104,6 +101,15 @@ Class Utilisateur  extends AbstractDataObject {
     public function setPrenom(string $prenom): void
     {
         $this->prenom = $prenom;
+    }
+    public function getEstAdmin(): bool
+    {
+        return $this->estAdmin;
+    }
+
+    public function setEstAdmin(bool $estAdmin): void
+    {
+        $this->estAdmin = $estAdmin;
     }
 
     public function formatTableau(): array

@@ -29,8 +29,10 @@ class ConnexionUtilisateur
         return Session::getInstance()->lire(self::$cleConnexion);    }
 
     public static function estAdministrateur() : bool{
-        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($_SESSION['_utilisateurConnecte']);
-        if(self::estConnecte() && $utilisateur->istEstAdmin()){
+
+        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire(Session::getInstance()->lire(self::$cleConnexion));
+
+        if(self::estConnecte() && $utilisateur->getEstAdmin() != null &&  $utilisateur->getEstAdmin()){
             return true;
         }
         else return false;

@@ -7,7 +7,7 @@
 <form method="get">
     <fieldset>
 
-        <legend>Mise à jour :</legend>
+        <legend>Creation :</legend>
         <p>
             <input type='hidden' name='controleur' value='utilisateur'>
             <input type='hidden' name='action' value='creerDepuisFormulaire'>
@@ -31,15 +31,17 @@
             <label class="InputAddOn-item" for="mdp2_id">Vérification du mot de passe&#42;</label>
             <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp2" id="mdp2_id" required>
         </p>
-        <p class="InputAddOn">
+
+        <?php  if(\App\Covoiturage\Lib\ConnexionUtilisateur::estConnecte() && \App\Covoiturage\Lib\ConnexionUtilisateur::estAdministrateur()){
+        echo '<p class="InputAddOn">
             <label class="InputAddOn-item" for="estAdmin_id">Administrateur</label>
             <input class="InputAddOn-field" type="checkbox" placeholder="" name="estAdmin" id="estAdmin_id">
-        </p>
+        </p>';}
+        ?>
         <p>
             <input type="submit" value="Envoyer"/>
         </p>
     </fieldset>
 </form>
-
 </body>
 </html>
