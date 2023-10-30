@@ -17,6 +17,11 @@ class ControleurGenerique{
         (new PreferenceControleur())->enregistrer($_REQUEST['controleur_defaut']);
         self::afficherVue('vueGenerale.php', ["pagetitle"=>"pref", "cheminVueBody"=>"preferenceEnregistree.php"]);
     }
+    public static function redirectionVersURL(string $url): void
+    {
+        header("Location: $url");
+        exit();
+    }
 }
 
 ?>

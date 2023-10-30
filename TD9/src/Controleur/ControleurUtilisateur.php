@@ -31,7 +31,11 @@ class ControleurUtilisateur extends ControleurGenerique
     public static function afficherDetail(): void
     {
         $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($_REQUEST['login']);
+        if($utilisateur)
         ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateur' => $utilisateur, "pagetitle" => "Details utilisateur", "cheminVueBody" => "utilisateur/detail.php"]);
+        else{
+            ControleurGenerique::redirectionVersURL("https://webinfo.iutmontp.univ-montp2.fr/~tordeuxm/td-php/TD9/web/controleurFrontal.php?controleur=utilisateur&action=afficherListe&messagesFlash[warning][]=Login+inconnu");
+        }
     }
 
     public static function supprimer(): void
