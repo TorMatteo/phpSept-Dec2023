@@ -4,7 +4,7 @@
 
 </head>
 <body>
-<form method="get">
+<form method="<?php echo ConfigurationSite::getDebug() ? 'GET' : 'POST'; ?>">
     <fieldset>
 
         <legend>Mise à jour :</legend>
@@ -50,6 +50,10 @@
             echo "> </p>";
         }
         ?>
+        <p class="InputAddOn">
+            <label class="InputAddOn-item" for="email_id">Email&#42;</label>
+            <input class="InputAddOn-field" type="email" value="<?php echo $utilisateur->getEmail(); ?>" placeholder="toto@yopmail.com" name="email" id="email_id" required>
+        </p>
         <p>
             <input type="submit" value="Envoyer"/>
         </p>

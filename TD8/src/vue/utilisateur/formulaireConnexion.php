@@ -4,7 +4,7 @@
 
 </head>
 <body>
-<form method="get">
+<form method="<?php echo ConfigurationSite::getDebug() ? 'GET' : 'POST'; ?>">
     <fieldset>
         <legend>Connexion :</legend>
          <p><label for="immat_id">Login</label>

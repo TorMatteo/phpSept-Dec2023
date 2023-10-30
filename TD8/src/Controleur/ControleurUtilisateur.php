@@ -30,25 +30,25 @@ class ControleurUtilisateur extends ControleurGenerique
 
     public static function afficherDetail(): void
     {
-        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($_GET['login']);
+        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($_REQUEST['login']);
         ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateur' => $utilisateur, "pagetitle" => "Details utilisateur", "cheminVueBody" => "utilisateur/detail.php"]);
     }
 
     public static function supprimer(): void
     {
 
-        /*$login = $_GET['login'];
+        /*$login = $_REQUEST['login'];
         (new UtilisateurRepository())->supprimer($login);
         $utilisateurs = (new UtilisateurRepository())->recuperer();
         ControleurUtilisateur::afficherVue('vueGenerale.php',
             ['utilisateurs' => $utilisateurs, 'login' => $login, "pagetitle" => "Uti suppr", "cheminVueBody" => 'utilisateur/utilisateurSupprimee.php']);*/
-        $utiVerif = (new UtilisateurRepository())->recupererParClePrimaire($_GET['login']);
+        $utiVerif = (new UtilisateurRepository())->recupererParClePrimaire($_REQUEST['login']);
         if ($utiVerif) {
             if ($utiVerif->getLogin() == Session::getInstance()->lire('_utilisateurConnecte') || ConnexionUtilisateur::estAdministrateur()) {
-                (new UtilisateurRepository())->supprimer($_GET['login']);
+                (new UtilisateurRepository())->supprimer($_REQUEST['login']);
                 $utilisateurs = (new UtilisateurRepository())->recuperer();
                 ControleurUtilisateur::afficherVue('vueGenerale.php',
-                    ['utilisateurs' => $utilisateurs, 'login' => $_GET['login'], "pagetitle" => "Uti suppr", "cheminVueBody" => 'utilisateur/utilisateurSupprimee.php']);
+                    ['utilisateurs' => $utilisateurs, 'login' => $_REQUEST['login'], "pagetitle" => "Uti suppr", "cheminVueBody" => 'utilisateur/utilisateurSupprimee.php']);
             } else {
                 self::afficherErreur("mauvais compte");
             }
@@ -65,10 +65,10 @@ class ControleurUtilisateur extends ControleurGenerique
     public static function afficherFormulaireMiseAJour(): void
     {
 
-        $login = $_GET['login'];
+        $login = $_REQUEST['login'];
         $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($login);
         if ($utilisateur) {
-            if ($_GET['login'] == ConnexionUtilisateur::getLoginUtilisateurConnecte() || ConnexionUtilisateur::estAdministrateur()) {
+            if ($_REQUEST['login'] == ConnexionUtilisateur::getLoginUtilisateurConnecte() || ConnexionUtilisateur::estAdministrateur()) {
                 ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateur' => $utilisateur, "pagetitle" => "MAJ",
                     "cheminVueBody" => 'utilisateur/formulaireMiseAJour.php']);
             } else {
@@ -83,11 +83,11 @@ class ControleurUtilisateur extends ControleurGenerique
     public static function mettreAJour(): void
     {
         if (ConnexionUtilisateur::estAdministrateur()) {
-            $uti = (new UtilisateurRepository())->recupererParClePrimaire($_GET['login']);
-            if($uti) {
-                $estAdmin = isset($_GET['estAdmin']) ? 1 : 0;
+            $uti = (new UtilisateurRepository())->recupererParClePrimaire($_REQUEST['login']);
+            if ($uti) {
+                $estAdmin = isset($_REQUEST['estAdmin']) ? 1 : 0;
                 var_dump($estAdmin);
-                $utilisateur = Utilisateur::construireDepuisFormulaire(array($_GET['login'], $_GET['nom'], $_GET['prenom'], $uti->getMdpHache(), $estAdmin));
+                $utilisateur = Utilisateur::construireDepuisFormulaire(array($_REQUEST['login'], $_REQUEST['nom'], $_REQUEST['prenom'], $uti->getMdpHache(), $estAdmin));
                 (new UtilisateurRepository())->mettreAJour($utilisateur);
                 if ($estAdmin == 1) {
                     $utilisateur->setEstAdmin(true);
@@ -96,90 +96,99 @@ class ControleurUtilisateur extends ControleurGenerique
                 }
                 $utilisateurs = (new UtilisateurRepository())->recuperer();
                 ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateurs' => $utilisateurs, "pagetitle" => "Utilisateur modifié", "cheminVueBody" => 'utilisateur/utilisateurMiseAJour.php', 'login' => $utilisateur->getLogin()]);
-            }
-            else{
+            } else {
                 self::afficherErreur("login existe pas");
             }
         } else {
-            if ((!empty($_GET['nom']) || !empty($_GET['prenom']) || !empty($_GET['mdp']) || !empty($_GET['mdp2']) || !empty($_GET['mdp3']))) {
-                $utiVerif = (new UtilisateurRepository())->recupererParClePrimaire($_GET['login']);
-                if ($utiVerif) {
-                    if ($utiVerif->getLogin() == Session::getInstance()->lire('_utilisateurConnecte')) {
-                        if (MotDePasse::verifier($_GET['mdp3'], $utiVerif->getMdpHache())) {
-                            if ($_GET['mdp'] == $_GET['mdp2']) {
-                                $mdp = MotDePasse::hacher($_GET['mdp']);
-                                $estAdmin = isset($_GET['estAdmin']) ? 1 : 0;
-                                $utilisateur = Utilisateur::construireDepuisFormulaire(array($_GET['login'], $_GET['nom'], $_GET['prenom'], $mdp, $estAdmin));
-                                (new UtilisateurRepository())->mettreAJour($utilisateur);
-                                if ($estAdmin == 1) {
-                                    $utilisateur->setEstAdmin(true);
+            if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                if ((!empty($_POST['nom']) || !empty($_REQUEST['prenom']) || !empty($_REQUEST['mdp']) || !empty($_REQUEST['mdp2']) || !empty($_REQUEST['mdp3']))) {
+                    $utiVerif = (new UtilisateurRepository())->recupererParClePrimaire($_REQUEST['login']);
+                    if ($utiVerif) {
+                        if ($utiVerif->getLogin() == Session::getInstance()->lire('_utilisateurConnecte')) {
+                            if (MotDePasse::verifier($_REQUEST['mdp3'], $utiVerif->getMdpHache())) {
+                                if ($_REQUEST['mdp'] == $_REQUEST['mdp2']) {
+                                    $mdp = MotDePasse::hacher($_REQUEST['mdp']);
+                                    $estAdmin = isset($_REQUEST['estAdmin']) ? 1 : 0;
+                                    $utilisateur = Utilisateur::construireDepuisFormulaire(array($_REQUEST['login'], $_REQUEST['nom'], $_REQUEST['prenom'], $mdp, $estAdmin, $_REQUEST['email']));
+                                    (new UtilisateurRepository())->mettreAJour($utilisateur);
+                                    VerificationEmail::envoiEmailValidation($utilisateur);
+                                    if ($estAdmin == 1) {
+                                        $utilisateur->setEstAdmin(true);
+                                    } else {
+                                        $utilisateur->setEstAdmin(false);
+                                    }
+
+                                    $utilisateurs = (new UtilisateurRepository())->recuperer();
+                                    ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateurs' => $utilisateurs, "pagetitle" => "Utilisateur modifié", "cheminVueBody" => 'utilisateur/utilisateurMiseAJour.php', 'login' => $utilisateur->getLogin()]);
+
                                 } else {
-                                    $utilisateur->setEstAdmin(false);
+                                    self::afficherErreur("erreur mdp nouveau et conf !=");
+
                                 }
-                                $utilisateurs = (new UtilisateurRepository())->recuperer();
-                                ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateurs' => $utilisateurs, "pagetitle" => "Utilisateur modifié", "cheminVueBody" => 'utilisateur/utilisateurMiseAJour.php', 'login' => $utilisateur->getLogin()]);
-
                             } else {
-                                self::afficherErreur("erreur mdp nouveau et conf !=");
-
+                                self::afficherErreur("erreur ancien mdp");
                             }
                         } else {
-                            self::afficherErreur("erreur ancien mdp");
+                            self::afficherErreur("mauvais compte");
                         }
                     } else {
-                        self::afficherErreur("mauvais compte");
+                        self::afficherErreur("erreur uti existe pas");
                     }
                 } else {
-                    self::afficherErreur("erreur uti existe pas");
+                    self::afficherErreur("champ vide");
                 }
             } else {
-                self::afficherErreur("champ vide");
+                self::afficherErreur("erreur email");
             }
         }
     }
 
     public static function creerDepuisFormulaire(): void
     {
-        if ($_GET['mdp'] == $_GET['mdp2']) {
-            $estAdmin = 0;
-            if (ConnexionUtilisateur::estConnecte() && ConnexionUtilisateur::estAdministrateur()) {
-                $estAdmin = isset($_GET['estAdmin']) ? 1 : 0;
-            }
-            $mdp = MotDePasse::hacher($_GET['mdp']);
-            $modUtilisateur = Utilisateur::construireDepuisFormulaire(array($_GET['login'], $_GET['nom'], $_GET['prenom'],$mdp, $estAdmin, $_GET['email']));
+        if (filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
+            if ($_REQUEST['mdp'] == $_REQUEST['mdp2']) {
+                $estAdmin = 0;
+                if (ConnexionUtilisateur::estConnecte() && ConnexionUtilisateur::estAdministrateur()) {
+                    $estAdmin = isset($_REQUEST['estAdmin']) ? 1 : 0;
+                }
+                $mdp = MotDePasse::hacher($_REQUEST['mdp']);
+                $modUtilisateur = Utilisateur::construireDepuisFormulaire(array($_REQUEST['login'], $_REQUEST['nom'], $_REQUEST['prenom'], $mdp, $estAdmin, $_REQUEST['email']));
 
-            $sauv = (new UtilisateurRepository())->sauvegarder($modUtilisateur);
-            if($sauv) {
-                VerificationEmail::envoiEmailValidation($modUtilisateur);
-            }
-            if ($estAdmin == 1) {
-                $modUtilisateur->setEstAdmin(true);
+                $sauv = (new UtilisateurRepository())->sauvegarder($modUtilisateur);
+                if ($sauv) {
+                    VerificationEmail::envoiEmailValidation($modUtilisateur);
+                }
+                if ($estAdmin == 1) {
+                    $modUtilisateur->setEstAdmin(true);
+                } else {
+                    $modUtilisateur->setEstAdmin(false);
+                }
+                $utilisateurs = (new UtilisateurRepository())->recuperer();
+                ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateurs' => $utilisateurs, "pagetitle" => "Utilisateur créé", "cheminVueBody" => 'utilisateur/utilisateurCree.php']);
             } else {
-                $modUtilisateur->setEstAdmin(false);
+                self::afficherErreur("mdp erreur");
             }
-            $utilisateurs = (new UtilisateurRepository())->recuperer();
-            ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateurs' => $utilisateurs, "pagetitle" => "Utilisateur créé", "cheminVueBody" => 'utilisateur/utilisateurCree.php']);
         } else {
-            self::afficherErreur("mdp erreur");
+            self::afficherErreur("email incorrecte");
         }
     }
 
 
-        public static function validerEmail(): void
-        {
-            $login = $_GET['login'] ?? null;
-            $nonce = $_GET['nonce'] ?? null;
-            if ($login && $nonce) {
-                $resultat =  VerificationEmail::traiterEmailValidation($login, $nonce);
-                if ($resultat) {
-                    self::afficherDetail();
-                } else {
-                    self::afficherErreur("Erreur de validation de l'email");
-                }
+    public static function validerEmail(): void
+    {
+        $login = $_REQUEST['login'] ?? null;
+        $nonce = $_REQUEST['nonce'] ?? null;
+        if ($login && $nonce) {
+            $resultat = VerificationEmail::traiterEmailValidation($login, $nonce);
+            if ($resultat) {
+                self::afficherDetail();
             } else {
-                self::afficherErreur("Paramètres manquants pour la validation de l'email");
+                self::afficherErreur("Erreur de validation de l'email");
             }
+        } else {
+            self::afficherErreur("Paramètres manquants pour la validation de l'email");
         }
+    }
 
 
     /*public static function deposerCookie(){
@@ -234,12 +243,16 @@ class ControleurUtilisateur extends ControleurGenerique
 
     public static function connecter()
     {
-        if (isset($_GET['login']) || isset($_GET['mdp'])) {
-            $utiVerif = (new UtilisateurRepository())->recupererParClePrimaire($_GET['login']);
+        if (isset($_REQUEST['login']) || isset($_REQUEST['mdp'])) {
+            $utiVerif = (new UtilisateurRepository())->recupererParClePrimaire($_REQUEST['login']);
             if ($utiVerif) {
-                if (MotDePasse::verifier($_GET['mdp'], $utiVerif->getMdpHache())) {
-                    ConnexionUtilisateur::connecter($_GET['login']);
-                    ControleurUtilisateur::afficherVue('vueGenerale.php', ["pagetitle" => "Connecté", "cheminVueBody" => 'utilisateur/utilisateurConnecte.php', 'utilisateur' => $utiVerif]);
+                if (MotDePasse::verifier($_REQUEST['mdp'], $utiVerif->getMdpHache())) {
+                    if (VerificationEmail::aValideEmail($utiVerif)) {
+                        ConnexionUtilisateur::connecter($_REQUEST['login']);
+                        ControleurUtilisateur::afficherVue('vueGenerale.php', ["pagetitle" => "Connecté", "cheminVueBody" => 'utilisateur/utilisateurConnecte.php', 'utilisateur' => $utiVerif]);
+                    } else {
+                        self::afficherErreur("email pas validé");
+                    }
                 } else {
                     self::afficherErreur("Login inconnu");
                 }

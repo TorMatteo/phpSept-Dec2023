@@ -4,7 +4,7 @@
 
 </head>
 <body>
-<form method="get">
+<form method="<?php echo ConfigurationSite::getDebug() ? 'GET' : 'POST'; ?>">
     <fieldset>
 
         <legend>Creation :</legend>

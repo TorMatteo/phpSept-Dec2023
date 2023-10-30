@@ -23,26 +23,28 @@ class VerificationEmail
     public static function traiterEmailValidation($login, $nonce): bool
     {
         $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($login);
-        if($utilisateur) {
-            if($utilisateur->getNonce() == $nonce) {
+        if ($utilisateur) {
+            if ($utilisateur->getNonce() == $nonce) {
                 $utilisateur->setEmail($utilisateur->getEmailAValider());
                 $utilisateur->setNonce("");
                 (new UtilisateurRepository())->mettreAJour($utilisateur);
                 return true;
-            }
-            else{
+            } else {
                 return false;
             }
-        }
-        else{
+        } else {
             return false;
         }
     }
 
-    public static function aValideEmail(Utilisateur $utilisateur) : bool
+    public static function aValideEmail(Utilisateur $utilisateur): bool
     {
-        // À compléter
-        return true;
+        if ($utilisateur->getEmail() != "") {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
+
 ?>

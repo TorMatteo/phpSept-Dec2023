@@ -13,7 +13,7 @@ class ControleurGenerique{
     }
 
     public static function enregistrerPreference(){
-        (new PreferenceControleur())->enregistrer($_GET['controleur_defaut']);
+        (new PreferenceControleur())->enregistrer($_REQUEST['controleur_defaut']);
         self::afficherVue('vueGenerale.php', ["pagetitle"=>"pref", "cheminVueBody"=>"preferenceEnregistree.php"]);
     }
 }
