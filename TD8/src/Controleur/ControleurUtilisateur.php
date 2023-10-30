@@ -4,6 +4,7 @@ namespace App\Covoiturage\Controleur;
 
 use App\Covoiturage\Lib\ConnexionUtilisateur;
 use App\Covoiturage\Lib\MotDePasse;
+use App\Covoiturage\Lib\VerificationEmail;
 use App\Covoiturage\Modele\DataObject\Utilisateur as Utilisateur;
 use App\Covoiturage\Modele\HTTP\Cookie;
 use App\Covoiturage\Modele\Repository\UtilisateurRepository as UtilisateurRepository;
@@ -141,13 +142,16 @@ class ControleurUtilisateur extends ControleurGenerique
     {
         if ($_GET['mdp'] == $_GET['mdp2']) {
             $estAdmin = 0;
-            if (ConnexionUtilisateur::estAdministrateur()) {
+            if (ConnexionUtilisateur::estConnecte() && ConnexionUtilisateur::estAdministrateur()) {
                 $estAdmin = isset($_GET['estAdmin']) ? 1 : 0;
             }
             $mdp = MotDePasse::hacher($_GET['mdp']);
-            $modUtilisateur = Utilisateur::construireDepuisFormulaire(array($_GET['login'], $_GET['nom'], $_GET['prenom'],$mdp, $estAdmin));
+            $modUtilisateur = Utilisateur::construireDepuisFormulaire(array($_GET['login'], $_GET['nom'], $_GET['prenom'],$mdp, $estAdmin, $_GET['email']));
 
-            $accepter = (new UtilisateurRepository())->sauvegarder($modUtilisateur);
+            $sauv = (new UtilisateurRepository())->sauvegarder($modUtilisateur);
+            if($sauv) {
+                VerificationEmail::envoiEmailValidation($modUtilisateur);
+            }
             if ($estAdmin == 1) {
                 $modUtilisateur->setEstAdmin(true);
             } else {
@@ -159,6 +163,24 @@ class ControleurUtilisateur extends ControleurGenerique
             self::afficherErreur("mdp erreur");
         }
     }
+
+
+        public static function validerEmail(): void
+        {
+            $login = $_GET['login'] ?? null;
+            $nonce = $_GET['nonce'] ?? null;
+            if ($login && $nonce) {
+                $resultat =  VerificationEmail::traiterEmailValidation($login, $nonce);
+                if ($resultat) {
+                    self::afficherDetail();
+                } else {
+                    self::afficherErreur("Erreur de validation de l'email");
+                }
+            } else {
+                self::afficherErreur("Paramètres manquants pour la validation de l'email");
+            }
+        }
+
 
     /*public static function deposerCookie(){
         (new Cookie())->enregistrer("oulala", 123, 0);

@@ -38,6 +38,10 @@
             <input class="InputAddOn-field" type="checkbox" placeholder="" name="estAdmin" id="estAdmin_id">
         </p>';}
         ?>
+        <p class="InputAddOn">
+            <label class="InputAddOn-item" for="email_id">Email&#42;</label>
+            <input class="InputAddOn-field" type="email" value="" placeholder="toto@yopmail.com" name="email" id="email_id" required>
+        </p>
         <p>
             <input type="submit" value="Envoyer"/>
         </p>
