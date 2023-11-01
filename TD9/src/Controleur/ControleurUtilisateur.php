@@ -3,6 +3,7 @@
 namespace App\Covoiturage\Controleur;
 
 use App\Covoiturage\Lib\ConnexionUtilisateur;
+use App\Covoiturage\Lib\MessageFlash;
 use App\Covoiturage\Lib\MotDePasse;
 use App\Covoiturage\Lib\VerificationEmail;
 use App\Covoiturage\Modele\DataObject\Utilisateur as Utilisateur;
@@ -34,7 +35,8 @@ class ControleurUtilisateur extends ControleurGenerique
         if($utilisateur)
         ControleurUtilisateur::afficherVue('vueGenerale.php', ['utilisateur' => $utilisateur, "pagetitle" => "Details utilisateur", "cheminVueBody" => "utilisateur/detail.php"]);
         else{
-            ControleurGenerique::redirectionVersURL("https://webinfo.iutmontp.univ-montp2.fr/~tordeuxm/td-php/TD9/web/controleurFrontal.php?controleur=utilisateur&action=afficherListe&messagesFlash[warning][]=Login+inconnu");
+            MessageFlash::ajouter("warning", "Login inconnu");
+            ControleurGenerique::redirectionVersURL("https://webinfo.iutmontp.univ-montp2.fr/~tordeuxm/td-php/TD9/web/controleurFrontal.php?controleur=utilisateur&action=afficherListe");
         }
     }
 
@@ -51,8 +53,10 @@ class ControleurUtilisateur extends ControleurGenerique
             if ($utiVerif->getLogin() == Session::getInstance()->lire('_utilisateurConnecte') || ConnexionUtilisateur::estAdministrateur()) {
                 (new UtilisateurRepository())->supprimer($_REQUEST['login']);
                 $utilisateurs = (new UtilisateurRepository())->recuperer();
-                ControleurUtilisateur::afficherVue('vueGenerale.php',
-                    ['utilisateurs' => $utilisateurs, 'login' => $_REQUEST['login'], "pagetitle" => "Uti suppr", "cheminVueBody" => 'utilisateur/utilisateurSupprimee.php']);
+                /*ControleurUtilisateur::afficherVue('vueGenerale.php',
+                    ['utilisateurs' => $utilisateurs, 'login' => $_REQUEST['login'], "pagetitle" => "Uti suppr", "cheminVueBody" => 'utilisateur/utilisateurSupprimee.php']);*/
+                MessageFlash::ajouter("success", "L'utilisateur a bien été supprimé !");
+                ControleurGenerique::redirectionVersURL("https://webinfo.iutmontp.univ-montp2.fr/~tordeuxm/td-php/TD9/web/controleurFrontal.php?controleur=utilisateur&action=afficherListe");
             } else {
                 self::afficherErreur("mauvais compte");
             }

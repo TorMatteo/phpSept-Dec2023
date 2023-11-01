@@ -7,6 +7,6 @@ namespace App\Covoiturage\Configuration;
      }
 
      public static function getDebug() : bool{
-         return false;
+         return true;
      }
  }

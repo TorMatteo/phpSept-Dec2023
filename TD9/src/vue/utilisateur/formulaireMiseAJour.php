@@ -4,7 +4,7 @@
 
 </head>
 <body>
-<form method="<?php echo ConfigurationSite::getDebug() ? 'GET' : 'POST'; ?>">
+<form method="<?php echo \App\Covoiturage\Configuration\ConfigurationSite::getDebug() ? 'get' : 'post'; ?>">
     <fieldset>
 
         <legend>Mise à jour :</legend>

@@ -1,11 +1,12 @@
 <?php
 namespace App\Covoiturage\Controleur;
+use App\Covoiturage\Lib\MessageFlash;
 use App\Covoiturage\Lib\PreferenceControleur;
 class ControleurGenerique{
 
      protected static function afficherVue(string $cheminVue, array $parametres = []) : void {
         extract($parametres); // Crée des variables à partir du tableau $parametres
-         $messagesFlash = isset($_REQUEST["messagesFlash"]) ? $_REQUEST["messagesFlash"] : [];
+         $messagesFlash = MessageFlash::lireTousMessages();
         require __DIR__ . "/../vue/$cheminVue"; // Charge la vue
     }
 
@@ -14,8 +15,9 @@ class ControleurGenerique{
     }
 
     public static function enregistrerPreference(){
-        (new PreferenceControleur())->enregistrer($_REQUEST['controleur_defaut']);
-        self::afficherVue('vueGenerale.php', ["pagetitle"=>"pref", "cheminVueBody"=>"preferenceEnregistree.php"]);
+        MessageFlash::ajouter("success", "La préférence de contrôleur est enregistrée !");
+         (new PreferenceControleur())->enregistrer($_REQUEST['controleur_defaut']);
+        self::redirectionVersURL("https://webinfo.iutmontp.univ-montp2.fr/~tordeuxm/td-php/TD9/web/controleurFrontal.php");
     }
     public static function redirectionVersURL(string $url): void
     {

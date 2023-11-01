@@ -4,7 +4,8 @@
 
 </head>
 <body>
-<form method="<?php echo ConfigurationSite::getDebug() ? 'GET' : 'POST'; ?>">
+
+<form method="<?php echo \App\Covoiturage\Configuration\ConfigurationSite::getDebug() ? 'get' : 'post'; ?>">
     <fieldset>
         <legend>Connexion :</legend>
          <p><label for="immat_id">Login</label>
